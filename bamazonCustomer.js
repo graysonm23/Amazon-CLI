@@ -9,8 +9,9 @@ var con = mysql.createConnection({
 });
 
 var confirmAnswerValidator = async input => {
-  if (input === "" || input > 10) {
-    return "ID not found";
+  if (input === "" || input > 10 || input === NaN) {
+    console.log("ID not found");
+    return false;
   }
   return true;
 };
@@ -72,12 +73,14 @@ inquirer
                 type: "input",
                 name: "productID",
                 message: "What is the ID of the product you would like to get?",
-                validate: confirmAnswerValidator
+                validate: confirmAnswerValidator,
+                filter: Number
               },
               {
                 type: "input",
                 name: "order",
-                message: "How many of that product would you like to order?"
+                message: "How many of that product would you like to order?",
+                filter: Number
               }
             ])
             .then(answers => {
@@ -113,17 +116,18 @@ inquirer
                   );
                   if (err) throw err;
                   con.query(
-                    "SELECT stock_quantity-" +
-                      answers.order +
-                      " FROM products WHERE id=" +
+                    "UPDATE products SET stock_quantity = " +
+                      (stock - answers.order) +
+                      " WHERE id = " +
                       answers.productID,
                     function(err, result, fields) {
-                      var result = Object.values(result[0]);
+                      var result = stock - answers.order;
                       console.log(
                         "New Stock: " +
                           result +
                           "\n\nThank you for your purchase!"
                       );
+                      console.log("Your Total is... " + answers.order * price);
                       if (err) throw err;
                     }
                   );
