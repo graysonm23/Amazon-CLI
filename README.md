@@ -6,7 +6,7 @@ Amazon Command Line Interface Application
 This CLI-Application uses inquirer and mysql to pair up creating a database/interface for users to shop on the command line.
 
 ## Gif of the App In Action
-
+![Alt Text](https://media.giphy.com/media/U5Ileus4uXtAv8pBYp/giphy.gif)
 ### Technologies Used
 
 - Javascript
