@@ -128,6 +128,7 @@ inquirer
                           "\n\nThank you for your purchase!"
                       );
                       console.log("Your Total is... " + answers.order * price);
+                      process.exit();
                       if (err) throw err;
                     }
                   );
