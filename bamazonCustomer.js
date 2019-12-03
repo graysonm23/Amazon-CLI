@@ -19,23 +19,22 @@ var confirmAnswerValidator = async input => {
 con.connect(function(err) {
   if (err) throw err;
 });
-inquirer
-  .prompt([
-    /* Pass your questions in here */
-    {
-      type: "list",
-      name: "Welcome",
-      message: "Welcome to Amazon-CLI! What would you like to do?",
-      choices: ["Show All Items"],
-      default: "Show All Items"
-    }
-  ])
-  .then(answers => {
-    // Use user feedback for... whatever!!
-    if (answers.Welcome === "Show All Items") {
-      con.query(
-        "SELECT id, product_name, department_name, price, stock_quantity FROM products",
-        function(err, result, fields) {
+function runThis() {
+  inquirer
+    .prompt([
+      /* Pass your questions in here */
+      {
+        type: "list",
+        name: "Welcome",
+        message: "Welcome to Amazon-CLI! What would you like to do?",
+        choices: ["Show All Items"],
+        default: "Show All Items"
+      }
+    ])
+    .then(answers => {
+      // Use user feedback for... whatever!!
+      if (answers.Welcome === "Show All Items") {
+        con.query("SELECT * FROM products", function(err, result, fields) {
           for (i = 0; i < result.length; i++) {
             var id = result[i].id;
             var product = result[i].product_name;
@@ -65,7 +64,6 @@ inquirer
               )
             );
           }
-          //   console.log(JSON.parse(JSON.stringify(result)));
           if (err) throw err;
           inquirer
             .prompt([
@@ -135,7 +133,8 @@ inquirer
                 }
               );
             });
-        }
-      );
-    }
-  });
+        });
+      }
+    });
+}
+runThis();
