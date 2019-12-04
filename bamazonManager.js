@@ -171,11 +171,14 @@ function runThis() {
                     "UPDATE products SET stock_quantity = " +
                       (stock + answers.Amount) +
                       " WHERE product_name = " +
-                      answers.Add,
+                      "'" +
+                      answers.Add +
+                      "'",
                     function(err, result, fields) {
                       console.log("New Stock: " + (stock + answers.Amount));
                       console.log("Product Updated!");
                       runThis();
+                      if (err) throw err;
                     }
                   );
                 }
